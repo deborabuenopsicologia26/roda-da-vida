@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roda da Vida do Imigrante — Débora Bueno</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sora',sans-serif;background:#F5F0E8;padding:2rem 1.5rem;min-height:100vh}
+  .logo-wrap{text-align:center;padding:1.5rem 0 1rem}
+  .logo-arc{display:block;margin:0 auto 6px}
+  .logo-nome{font-family:'Libre Caslon Text',serif;font-size:26px;color:#8A5033;letter-spacing:2px;font-weight:700}
+  .logo-sep{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px 0}
+  .logo-sep-line{flex:1;max-width:80px;height:0.5px;background:#97A3AE}
+  .logo-sep-dot{width:5px;height:5px;border-radius:50%;background:#97A3AE}
+  .logo-sub{font-family:'Sora',sans-serif;font-size:9px;letter-spacing:3px;color:#97A3AE;text-transform:uppercase}
+  .roda-header{text-align:center;margin-bottom:1.5rem}
+  .roda-header h1{font-family:'Libre Caslon Text',serif;font-size:20px;color:#8A5033;font-weight:700;line-height:1.2}
+  .roda-header p{font-size:12px;color:#6b5a4e;margin-top:5px}
+  .roda-canvas-wrap{display:flex;justify-content:center;margin-bottom:1.5rem}
+  .areas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem;max-width:700px;margin-left:auto;margin-right:auto}
+  .area-item{background:white;border-radius:10px;padding:10px 12px;border-left:3px solid #8A5033}
+  .area-label{font-size:10px;font-weight:600;color:#8A5033;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px}
+  .area-question{font-size:10px;color:#6b5a4e;line-height:1.4;margin-bottom:7px}
+  .slider-row{display:flex;align-items:center;gap:8px}
+  .area-slider{flex:1;accent-color:#8A5033}
+  .area-value{font-size:13px;font-weight:600;color:#8A5033;min-width:18px;text-align:right}
+  .capture-box{background:white;border-radius:12px;padding:1.25rem;border:1.5px solid #DCCCB4;margin-bottom:1rem;max-width:500px;margin-left:auto;margin-right:auto}
+  .capture-box h2{font-family:'Libre Caslon Text',serif;font-size:16px;color:#8A5033;margin-bottom:5px}
+  .capture-box p{font-size:12px;color:#6b5a4e;margin-bottom:12px;line-height:1.5}
+  .capture-box input{width:100%;padding:10px 12px;border:1px solid #DCCCB4;border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;color:#111;background:#faf8f5;margin-bottom:8px;outline:none}
+  .capture-box input:focus{border-color:#8A5033}
+  .btn-resultado{width:100%;padding:12px;background:#8A5033;color:white;border:none;border-radius:8px;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
+  .btn-resultado:hover{background:#7a4229}
+  .resultado-box{display:none;background:white;border-radius:12px;padding:1.25rem;border:1.5px solid #8A5033;margin-top:1rem;max-width:500px;margin-left:auto;margin-right:auto}
+  .resultado-box h2{font-family:'Libre Caslon Text',serif;font-size:16px;color:#8A5033;margin-bottom:10px}
+  .resultado-areas{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+  .resultado-tag{font-size:10px;padding:5px 8px;border-radius:6px;font-weight:600}
+  .tag-baixo{background:#FDECEA;color:#A32D2D}
+  .tag-medio{background:#FEF3E0;color:#854F0B}
+  .tag-alto{background:#E1F5EE;color:#0F6E56}
+  .resultado-msg{font-size:12px;color:#6b5a4e;line-height:1.6;padding:10px;background:#F5F0E8;border-radius:8px;margin-bottom:10px}
+  .resultado-cta{font-size:11px;color:#97A3AE;text-align:center}
+  .resultado-cta strong{color:#8A5033;font-family:'Libre Caslon Text',serif}
+  .enviando{font-size:12px;color:#8A5033;text-align:center;padding:8px;display:none}
+  .footer-site{text-align:center;margin-top:1.5rem;font-size:11px;color:#97A3AE}
+  canvas{display:block;margin:0 auto}
+  @media(max-width:500px){
+    .areas-grid{grid-template-columns:1fr}
+    .resultado-areas{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="logo-wrap">
+  <svg class="logo-arc" width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 28 C 30 4, 90 4, 112 28" stroke="#97A3AE" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M14 28 C 34 8, 86 8, 106 28" stroke="#97A3AE" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  </svg>
+  <div class="logo-nome">DÉBORA BUENO</div>
+  <div class="logo-sep">
+    <div class="logo-sep-line"></div>
+    <div class="logo-sep-dot"></div>
+    <div class="logo-sep-line"></div>
+  </div>
+  <div class="logo-sub">Psicologia Intercultural &nbsp;·&nbsp; Neurodiversidade</div>
+</div>
+
+<div class="roda-header">
+  <h1>Roda da Vida do Imigrante</h1>
+  <p>Avalie cada área de 0 a 10 e veja o mapa da sua vida agora.</p>
+</div>
+
+<div class="roda-canvas-wrap">
+  <canvas id="rodaCanvas" width="260" height="260"></canvas>
+</div>
+
+<div class="areas-grid" id="areasGrid"></div>
+
+<div class="capture-box">
+  <h2>Ver minha análise</h2>
+  <p>Preencha abaixo para receber um resumo personalizado com orientações para as áreas que precisam de mais atenção.</p>
+  <input type="text" id="inputNome" placeholder="Seu nome" />
+  <input type="email" id="inputEmail" placeholder="Seu melhor e-mail" />
+  <button class="btn-resultado" onclick="mostrarResultado()">Quero ver minha análise</button>
+  <div class="enviando" id="enviando">Enviando seus dados...</div>
+</div>
+
+<div class="resultado-box" id="resultadoBox">
+  <h2>Sua análise — Roda da Vida do Imigrante</h2>
+  <div class="resultado-areas" id="resultadoAreas"></div>
+  <div class="resultado-msg" id="resultadoMsg"></div>
+  <p class="resultado-cta"><strong>Débora Bueno</strong> · Consultora Terapêutica<br>deborabuenopsi.com</p>
+</div>
+
+<div class="footer-site">deborabuenopsi.com</div>
+
+<script>
+// ⚠️ SUBSTITUA PELA SUA CHAVE DO BREVO
+const BREVO_API_KEY = 'xsmtpsib-3bd6d409239b950511c55b709110292bb9efc10ed0b06de07dbf9ecc0988340a-zdj4W9SvXMPkwTgj';
+const BREVO_LIST_ID = 2;
+
+const areas = [
+  {id:1,nome:"Carreira e realização profissional",pergunta:"Estou satisfeita com minha trajetória profissional atual?",valor:5},
+  {id:2,nome:"Vida financeira",pergunta:"Sinto que tenho estabilidade financeira e consigo realizar meus planos?",valor:5},
+  {id:3,nome:"Saúde emocional",pergunta:"Como está meu equilíbrio emocional e saúde mental no dia a dia?",valor:5},
+  {id:4,nome:"Saúde física",pergunta:"Estou cuidando do meu corpo e tenho disposição para minhas atividades?",valor:5},
+  {id:5,nome:"Relacionamentos familiares",pergunta:"Como estão minhas relações com familiares que vivem comigo ou à distância?",valor:5},
+  {id:6,nome:"Rede de apoio e amizades",pergunta:"Tenho pessoas com quem posso contar no país onde vivo?",valor:5},
+  {id:7,nome:"Pertencimento cultural",pergunta:"Sinto que pertenço ao lugar onde vivo e me sinto parte da comunidade?",valor:5},
+  {id:8,nome:"Identidade e autoconhecimento",pergunta:"Reconheço quem me tornei após a imigração e me sinto alinhada com meus valores?",valor:5},
+  {id:9,nome:"Rotina e organização",pergunta:"Minha rotina está funcionando e consigo me organizar para minhas responsabilidades?",valor:5},
+  {id:10,nome:"Propósito e futuro",pergunta:"Tenho clareza sobre onde quero chegar e sinto que minha vida tem propósito?",valor:5}
+];
+
+function renderAreas(){
+  const grid=document.getElementById('areasGrid');
+  grid.innerHTML='';
+  areas.forEach((a,i)=>{
+    const div=document.createElement('div');
+    div.className='area-item';
+    div.innerHTML=`<div class="area-label">${a.id}. ${a.nome}</div><div class="area-question">${a.pergunta}</div><div class="slider-row"><input type="range" min="0" max="10" step="1" value="${a.valor}" class="area-slider" oninput="updateValor(${i},this.value)"/><span class="area-value" id="val${i}">${a.valor}</span></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function updateValor(i,v){
+  areas[i].valor=parseInt(v);
+  document.getElementById('val'+i).textContent=v;
+  desenharRoda();
+}
+
+function desenharRoda(){
+  const canvas=document.getElementById('rodaCanvas');
+  const ctx=canvas.getContext('2d');
+  const cx=130,cy=130,r=110,n=areas.length;
+  ctx.clearRect(0,0,260,260);
+  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);ctx.fillStyle='#F5F0E8';ctx.fill();
+  for(let ring=2;ring<=10;ring+=2){
+    ctx.beginPath();ctx.arc(cx,cy,r*ring/10,0,2*Math.PI);ctx.strokeStyle='#DCCCB4';ctx.lineWidth=0.8;ctx.stroke();
+  }
+  for(let i=0;i<n;i++){
+    const angle=(2*Math.PI*i/n)-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+r*Math.cos(angle),cy+r*Math.sin(angle));ctx.strokeStyle='#DCCCB4';ctx.lineWidth=0.8;ctx.stroke();
+  }
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const angle=(2*Math.PI*i/n)-Math.PI/2;
+    const rv=r*areas[i].valor/10;
+    const x=cx+rv*Math.cos(angle),y=cy+rv*Math.sin(angle);
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.fillStyle='rgba(138,80,51,0.22)';ctx.fill();ctx.strokeStyle='#8A5033';ctx.lineWidth=2;ctx.stroke();
+  areas.forEach((a,i)=>{
+    const angle=(2*Math.PI*i/n)-Math.PI/2;
+    const labelR=r+13;
+    const x=cx+labelR*Math.cos(angle),y=cy+labelR*Math.sin(angle);
+    ctx.fillStyle='#8A5033';ctx.font='bold 9px Sora,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(a.id,x,y);
+  });
+}
+
+async function salvarNoBrevo(nome,email,notas){
+  try{
+    const primeiroNome=nome.split(' ')[0];
+    const notasStr=notas.map((v,i)=>`${areas[i].nome.substring(0,20)}: ${v}`).join(' | ');
+    await fetch('https://api.brevo.com/v3/contacts',{
+      method:'POST',
+      headers:{'accept':'application/json','content-type':'application/json','api-key':BREVO_API_KEY},
+      body:JSON.stringify({
+        email:email,
+        attributes:{FIRSTNAME:primeiroNome,LASTNAME:nome.split(' ').slice(1).join(' '),RODA_NOTAS:notasStr},
+        listIds:[BREVO_LIST_ID],
+        updateEnabled:true
+      })
+    });
+  }catch(e){console.log('Brevo erro:',e);}
+}
+
+async function mostrarResultado(){
+  const nome=document.getElementById('inputNome').value.trim();
+  const email=document.getElementById('inputEmail').value.trim();
+  if(!nome||!email){alert('Por favor, preencha seu nome e e-mail para ver a análise.');return;}
+  if(!email.includes('@')){alert('Por favor, insira um e-mail válido.');return;}
+  document.getElementById('enviando').style.display='block';
+  const notas=areas.map(a=>a.valor);
+  await salvarNoBrevo(nome,email,notas);
+  document.getElementById('enviando').style.display='none';
+  const baixas=areas.filter(a=>a.valor<=4).sort((a,b)=>a.valor-b.valor);
+  const altas=areas.filter(a=>a.valor>=8);
+  const media=(areas.reduce((s,a)=>s+a.valor,0)/areas.length).toFixed(1);
+  const tagsDiv=document.getElementById('resultadoAreas');
+  tagsDiv.innerHTML='';
+  areas.forEach(a=>{
+    const tag=document.createElement('div');
+    tag.className='resultado-tag '+(a.valor<=4?'tag-baixo':a.valor<=7?'tag-medio':'tag-alto');
+    tag.textContent=a.id+'. '+a.nome.split(' ').slice(0,3).join(' ')+' — '+a.valor;
+    tagsDiv.appendChild(tag);
+  });
+  let msg=`Olá, ${nome}! Sua média geral é ${media}/10. `;
+  if(baixas.length>0)msg+=`As áreas que pedem mais atenção agora são: ${baixas.slice(0,3).map(a=>a.nome).join(', ')}. `;
+  if(altas.length>0)msg+=`Seus pontos de força são: ${altas.map(a=>a.nome).join(', ')}. `;
+  msg+=`Pequenas mudanças em uma área impactam todas as outras. Você está construindo sua nova história — um dia de cada vez.`;
+  document.getElementById('resultadoMsg').textContent=msg;
+  document.getElementById('resultadoBox').style.display='block';
+  document.getElementById('resultadoBox').scrollIntoView({behavior:'smooth'});
+}
+
+renderAreas();
+desenharRoda();
+</script>
+</body>
+</html>
