@@ -98,10 +98,6 @@
 <div class="footer-site">deborabuenopsi.com</div>
 
 <script>
-// ⚠️ SUBSTITUA PELA SUA CHAVE DO BREVO
-const BREVO_API_KEY = 'xsmtpsib-3bd6d409239b950511c55b709110292bb9efc10ed0b06de07dbf9ecc0988340a-zdj4W9SvXMPkwTgj';
-const BREVO_LIST_ID = 2;
-
 const areas = [
   {id:1,nome:"Carreira e realização profissional",pergunta:"Estou satisfeita com minha trajetória profissional atual?",valor:5},
   {id:2,nome:"Vida financeira",pergunta:"Sinto que tenho estabilidade financeira e consigo realizar meus planos?",valor:5},
@@ -162,21 +158,23 @@ function desenharRoda(){
   });
 }
 
+// === INTEGRAÇÃO SEGURA COM BREVO (lista: Leads - Roda da Vida) ===
+// Usa o formulário público do Brevo (sem chave de API exposta no código).
 async function salvarNoBrevo(nome,email,notas){
   try{
-    const primeiroNome=nome.split(' ')[0];
     const notasStr=notas.map((v,i)=>`${areas[i].nome.substring(0,20)}: ${v}`).join(' | ');
-    await fetch('https://api.brevo.com/v3/contacts',{
-      method:'POST',
-      headers:{'accept':'application/json','content-type':'application/json','api-key':BREVO_API_KEY},
-      body:JSON.stringify({
-        email:email,
-        attributes:{FIRSTNAME:primeiroNome,LASTNAME:nome.split(' ').slice(1).join(' '),RODA_NOTAS:notasStr},
-        listIds:[BREVO_LIST_ID],
-        updateEnabled:true
+    await fetch("https://1bda0c05.sibforms.com/serve/MUIFAJha8x6-cbsp4MN56kqJt46X5aRVwheXWWiO4HTrnj0cH9kto3IC0KcWKsJe-MkZU0g2ERYHfAz6HSsRfzN8RclvIUb9zy5HZi4YFtldxnhyoneH5dl-bV2oJ0sfEKlGoWrS5Q5-qzwkIzxbWEbNTWsHyYPTyYdGo2yzbWX8ZJ3phole2Vyroofqy4ZgwzK3hR47W6svz0qrmw==", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: new URLSearchParams({
+        NOME: nome,
+        EMAIL: email,
+        email_address_check: "",
+        locale: "pt"
       })
     });
-  }catch(e){console.log('Brevo erro:',e);}
+  }catch(e){ /* envio silencioso: não bloqueia a exibição do resultado mesmo se falhar */ }
 }
 
 async function mostrarResultado(){
